@@ -1,0 +1,7 @@
+{
+    "eventName": "getNewScoresNHL",
+    "url": "http://www.sportsnet.ca/wp-content/themes/sportsnet/zones/ajax-scoreboard.php",
+    "requestType": "GET",
+	"responseTemplate": "{{#data.nhl.In-Progress}}{{home_team_short}}~{{home_score}}~{{visiting_team_short}}~{{visiting_score}}~{{period}}~{{/data.nhl.In-Progress}}{{#data.nhl.Final}}{{home_team_short}}~{{home_score}}~{{visiting_team_short}}~{{visiting_score}}~6~{{/data.nhl.Final}}",
+    "mydevices": true
+}

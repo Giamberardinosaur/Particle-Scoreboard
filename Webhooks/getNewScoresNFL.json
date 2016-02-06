@@ -1,0 +1,7 @@
+{
+    "eventName": "getNewScoresNFL",
+    "url": "http://www.sportsnet.ca/wp-content/themes/sportsnet/zones/ajax-scoreboard.php",
+    "requestType": "GET",
+	"responseTemplate": "{{#data.nfl.In-Progress}}{{home_team_short}}~{{home_score}}~{{visiting_team_short}}~{{visiting_score}}~{{period}}~{{/data.nfl.In-Progress}}{{#data.nfl.Final}}{{home_team_short}}~{{home_score}}~{{visiting_team_short}}~{{visiting_score}}~6~{{/data.nfl.Final}}",
+    "mydevices": true
+}

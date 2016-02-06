@@ -1,0 +1,7 @@
+{
+    "eventName": "getNewScoresNBA",
+    "url": "http://www.sportsnet.ca/wp-content/themes/sportsnet/zones/ajax-scoreboard.php",
+    "requestType": "GET",
+	"responseTemplate": "{{#data.nba.In-Progress}}{{home_team_short}}~{{home_score}}~{{visiting_team_short}}~{{visiting_score}}~{{period}}~{{/data.nba.In-Progress}}{{#data.nba.Final}}{{home_team_short}}~{{home_score}}~{{visiting_team_short}}~{{visiting_score}}~6~{{/data.nba.Final}}",
+    "mydevices": true
+}
