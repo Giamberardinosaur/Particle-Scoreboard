@@ -164,10 +164,8 @@ void setup() {
     pinMode(A6, INPUT);
     pinMode(A7, OUTPUT);
     matrix.begin();
-    Particle.subscribe("hook-response/getNewScoresNHL", gotScoreData, MY_DEVICES);
-	Particle.subscribe("hook-response/getNewScoresNBA", gotScoreData, MY_DEVICES);
-	Particle.subscribe("hook-response/getNewScoresNFL", gotScoreData, MY_DEVICES);
-	Time.zone(-5.0);
+    Particle.subscribe("hook-response/getNewScores", gotScoreData, MY_DEVICES);
+    Time.zone(-5.0);
 }
 
 void loop() {
@@ -190,9 +188,9 @@ void loop() {
     if (millis() >= t2+4000 && scores[0] != -1 && scores[1] != -1) {
 		circleWipe();
 		matrix.setFont(GLCDFONT);
-        matrix.fillScreen(matrix.Color333(0, 0, 0));
-        matrix.setTextWrap(false);
-        matrix.setTextSize(1);
+	        matrix.fillScreen(matrix.Color333(0, 0, 0));
+	        matrix.setTextWrap(false);
+	        matrix.setTextSize(1);
 		Particle.process();
 		for (int x = 0; x < 8; x++) {
 			matrix.fillScreen(Black);
