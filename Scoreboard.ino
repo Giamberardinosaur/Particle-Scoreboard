@@ -151,6 +151,7 @@ RGBmatrixPanel matrix(A, B, C, D, CLK, LAT, OE, false);
 unsigned long t = 0;
 unsigned long t2 = 0;
 unsigned long t3 = 0;
+int loadPos = 0;
 int pos = 0;
 int sport = 0;
 int step = 0;
@@ -183,12 +184,11 @@ void loop() {
 		}
 		//gotScoreData(NULL, "VAN~7~PIT~0~1~BUF~5~MTL~5~4~LA~4~SJ~2~6~"); //For testing when there is no games
         t = millis();
+        loadPos = 0;
     }
 	//Change the game displayed every 4 seconds
     if (millis() >= t2+4000 && scores[0] != -1 && scores[1] != -1) {
-		if (scores[2] != -1 && scores[3] != -1) {
-			circleWipe();
-		}
+		circleWipe();
 		matrix.setFont(GLCDFONT);
         matrix.fillScreen(matrix.Color333(0, 0, 0));
         matrix.setTextWrap(false);
@@ -276,21 +276,35 @@ void loop() {
         }
         t2 = millis();
     }
-	//If there is no games, display that
-    if (scores[0] == -1 && scores[1] == -1 && millis() >= t2+5000) {
+	//If there is no response, tell everyone to calm down and wait, then after a while display no games
+    if (scores[0] == -1 && scores[1] == -1 && millis() >= t2+100) {
 		if (millis() <= t+10000) {
-			matrix.setFont(TEST);
-			matrix.setCursor(1, 11);
-			matrix.setTextColor(Cyan);
-			matrix.print("LOADING");
+		    if (loadPos == 0) {
+    			matrix.setFont(GLCDFONT);
+    			matrix.setTextColor(Cyan);
+    			matrix.fillScreen(Black);
+    			matrix.setCursor(7, 3);
+    			matrix.print("PLS");
+    			matrix.setCursor(4, 11);
+    			matrix.print("WAIT");
+		    }
+			loadPos %= 20;
+			matrix.fillRect(10, 18, 12, 12, Black);
+			matrix.drawPixel((int)16+round(sin((loadPos/10.0)*3.14)*4), (int)24+round(cos((loadPos/10.0)*3.14)*4), Cyan);
+			matrix.drawPixel((int)16+round(sin(((loadPos+10)/10.0)*3.14)*4), (int)24+round(cos(((loadPos+10)/10.0)*3.14)*4), Cyan);
+		    loadPos++;	
 		} else {
-			matrix.setFont(GLCDFONT);
-			matrix.fillScreen(matrix.Color333(0, 0, 0));
-	        matrix.setTextColor(matrix.Color333(7, 0, 0));
-	        matrix.setCursor(11, 7);
-	        matrix.print("NO");
-			matrix.setCursor(1, 15);
-	        matrix.print("GAMES");
+		    if (loadPos == 0) {
+    			matrix.setFont(GLCDFONT);
+    			matrix.fillScreen(matrix.Color333(0, 0, 0));
+    	        matrix.setTextColor(matrix.Color333(7, 0, 0));
+    	        matrix.setCursor(11, 7);
+    	        matrix.print("NO");
+    			matrix.setCursor(1, 15);
+    	        matrix.print("GAMES");
+		    }
+	        loadPos++;
+	        loadPos %= 20;
 		}
 		t2 = millis();
     }
@@ -328,6 +342,7 @@ void gotScoreData(const char *name, const char *data) {
             idx++;
         }
     }
+    t2 = millis()-4000;
 }
 
 //Checks the IR sensor for activity
@@ -432,3 +447,4 @@ uint16_t getColor(String team, int s) {
 	}
 	return White;
 }
+
